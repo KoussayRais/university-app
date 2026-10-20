@@ -3,8 +3,8 @@ function StudentCard(props) {
   return (
     <div className="container">
       <div className="fiche">
-        <img src={props.image} alt="photo d'etudiant" />
-        <h1>Fiche étudiant</h1>
+        <img src={props.image} alt="photo d'etudiant" className="student-image" />
+        <h3>Fiche étudiant</h3>
         <strong>Nom  :</strong> {props.nom} <br/>
         <strong>Prénom  :</strong> {props.prenom} <br/>
         <strong>Email :</strong> {props.email}<br />
