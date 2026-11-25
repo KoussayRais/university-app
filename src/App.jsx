@@ -1,108 +1,132 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useState } from "react";
 import Header from "./components/hedear.jsx";
 import Navbar from "./components/navbar.jsx";
 import StudentCard from "./components/StudentCard.jsx";
 import Footer from "./components/footer.jsx";
-
+import StudentForm from "./components/StudentForm.jsx";
 import "./App.css";
 
 function App() {
-  // Utilisation de useState pour rendre la liste dynamique
-  const [students, setStudents] = useState([
+  const [recherche, setRecherche] = useState("");
+  const [etudiantAModifier, setEtudiantAModifier] = useState(null);
+
+  const [etudiants, setEtudiants] = useState([
     {
       id: 1,
-      nom: "koussay ",
+      nom: "koussay",
       prenom: "rais",
       email: "kousay2009a@gmail.com",
-      tel: "+216 27 438 803",
-      filiere: "Génie logiciel et systèmes d'information",
-      annee: "2026/2027",
+      telephone: "+216 27 438 803",
+      filiere: "GLSI",
+      anneeEtude: "2026/2027",
       groupe: "GLSI2B",
       ville: "Mahdia",
       image: "img1.jpeg",
     },
     {
       id: 2,
-      nom: "Slim ",
+      nom: "Slim",
       prenom: "Boubaker",
       email: "slim.boubaker@example.com",
-      tel: "+216 20 111 222",
-      filiere: "Informatique",
-      annee: "2026/2027",
+      telephone: "+216 20 111 222",
+      filiere: "DSI",
+      anneeEtude: "2026/2027",
       groupe: "GLSI2B",
       ville: "Mahdia",
       image: "img2.png",
     },
     {
       id: 3,
-      nom: "Sarra ",
+      nom: "Sarra",
       prenom: "Trabelsi",
       email: "sarra.trabelsi@example.com",
-      tel: "+216 21 333 444",
-      filiere: "Génie logiciel",
-      annee: "2026/2027",
+      telephone: "+216 21 333 444",
+      filiere: "RSI",
+      anneeEtude: "2026/2027",
       groupe: "GLSI2B",
       ville: "Sousse",
       image: "img3.png",
     },
   ]);
 
-  // La fonction d'ajout doit être à l'intérieur du composant App
-  const ajouterEtudiant = () => {
-    const nouvelEtudiant = {
-      id: students.length + 1,
-      nom: "Nouveau",
-      prenom: "Étudiant",
-      email: "nouveau@example.com",
-      tel: "+216 00 000 000",
-      filiere: "Génie logiciel",
-      annee: "2026/2027",
-      groupe: "GLSI2B",
-      ville: "Tunis",
-      image: "img2.png",
+  function ajouterEtudiant(nouvelEtudiant) {
+    const etudiantAvecId = {
+      ...nouvelEtudiant,
+      id: Date.now(),
     };
-    setStudents([...students, nouvelEtudiant]);
-  };
- 
-  
+    setEtudiants((anciensEtudiants) => [...anciensEtudiants, etudiantAvecId]);
+  }
+  function supprimerEtudiant(id) {
+    setEtudiants((anciensEtudiants) =>
+      anciensEtudiants.filter((etudiant) => etudiant.id !== id)
+    );
+    if (etudiantAModifier?.id === id) {
+      setEtudiantAModifier(null);
+    }
+  }
+ function modifierEtudiant(etudiant) {
+    setEtudiantAModifier(etudiant);
+  }
+
+  function enregistrerModification(etudiantModifie) {
+    setEtudiants((anciensEtudiants) =>
+      anciensEtudiants.map((etudiant) =>
+        etudiant.id === etudiantAModifier.id
+          ? { ...etudiantModifie, id: etudiant.id }
+          : etudiant
+      )
+    );
+    setEtudiantAModifier(null);
+  }
 
   return (
     <div className="app">
       <Header />
       <Navbar />
 
+      <StudentForm
+        key={etudiantAModifier ? etudiantAModifier.id : "nouveau"}
+        onAjouterEtudiant={ajouterEtudiant}
+        etudiantAModifier={etudiantAModifier}
+        onModifierEtudiant={enregistrerModification}
+      />
+
       <main className="container" id="etudiants">
         <h2 className="section-title">Liste des étudiants</h2>
-
         <p className="section-description">
           Année universitaire 2026/2027 — GLSI 2
         </p>
 
-        {/* Bouton pour ajouter un étudiant lié à la fonction */}
-        <button onClick={ajouterEtudiant} style={{ marginBottom: "20px" }}>
-          + Ajouter un étudiant
-        </button>
+        <div>
+          <input
+            type="text"
+            placeholder="Recherche par filiere"
+            value={recherche}
+            onChange={(e) => setRecherche(e.target.value)}
+          />
+        </div>
 
         <section className="students-list">
-          {students.map((student) => (
-            <StudentCard
-              key={student.id}
-              nom={student.nom}
-              prenom={student.prenom}
-              email={student.email}
-              tel={student.tel}
-              filiere={student.filiere}
-              annee={student.annee}
-              groupe={student.groupe}
-              ville={student.ville}
-              image={student.image}
-            />
-          ))}
+          {etudiants
+            .filter((etudiant) => {
+              const terme = recherche.toLowerCase();
+              return (
+                etudiant.filiere.toLowerCase().includes(terme) ||
+                etudiant.nom.toLowerCase().includes(terme) ||
+                etudiant.prenom.toLowerCase().includes(terme)
+              );
+            })
+            .map((etudiant) => (
+              <StudentCard
+                key={etudiant.id}
+                etudiant={etudiant}
+                onSupprimer={supprimerEtudiant}
+                onModifier={modifierEtudiant}
+              />
+            ))}
         </section>
       </main>
+
       <Footer />
     </div>
   );

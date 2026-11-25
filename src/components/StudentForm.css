@@ -1,0 +1,130 @@
+/* Arrière-plan et centrage de la page */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Carte du formulaire */
+form {
+  background-color: #ffffff;
+  padding: 32px 36px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  margin-left: 30%;
+}
+
+/* Chaque ligne label + champ */
+form > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+/* Labels */
+form > div > label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+/* Champs texte, email, tel et liste déroulante */
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form select {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #111827;
+  background-color: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+  box-sizing: border-box;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="tel"]:focus,
+form select:focus {
+  outline: none;
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Champ fichier (Image) */
+form input[type="file"] {
+  font-size: 0.9rem;
+  color: #4b5563;
+  padding: 8px;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  cursor: pointer;
+}
+
+form input[type="file"]::file-selector-button {
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-right: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+form input[type="file"]::file-selector-button:hover {
+  background-color: #d1d5db;
+}
+
+/* Boutons */
+form button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-right: 10px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+form button:last-child {
+  margin-right: 0;
+}
+
+form button:active {
+  transform: scale(0.98);
+}
+
+form button[type="submit"] {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+form button[type="submit"]:hover {
+  background-color: #1d4ed8;
+}
+
+form button[type="reset"] {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+form button[type="reset"]:hover {
+  background-color: #d1d5db;
+}
